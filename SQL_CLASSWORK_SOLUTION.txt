@@ -1,0 +1,180 @@
+##################################  1  ###############################################
+
+CREATE TABLE employees (
+	emp_id  INT  PRIMARY KEY,
+	emp_name  varchar(255) NOT NULL,
+	job_name  varchar(255) NOT NULL,
+	manager_id  INT,
+	hire_date   date NOT NULL,
+	salary  float NOT NULL,
+	commission float NOT NULL,
+	dep_id INT NOT NULL 
+	);
+	
+##################################  2  ###############################################
+
+SELECT *
+FROM employees
+WHERE job_name <> 'MANAGER' AND dep_id = '20'
+
+##################################  3  ################################################
+
+SELECT emp_name, salary
+FROM employees
+WHERE emp_name in ('Blake', 'Jones', 'Scott' , 'Smith')
+ORDER BY Salary DESC
+
+##################################  4  #################################################
+
+SELECT DISTINCT job_name
+FROM employees
+WHERE salary > 2500 OR salary <  1000
+
+##################################  5  ################################################
+
+SELECT emp_name
+FROM employees
+WHERE emp_name LIKE'S%' OR 'J%'
+
+##################################  6  #################################################
+
+SELECT *
+FROM employees
+WHERE job_name LIKE'%ANA%'
+ORDER BY hire_date ASC
+
+##################################  7  #################################################
+
+SELECT *
+FROM employees
+LIMIT 5
+
+##################################  8  #################################################
+SELECT emp_name, salary, net_salary
+FROM employees
+WHERE net_salary IS NOT NULL
+
+RESULT:
+
+ADELYN	1700.0	2100.0
+Blake	1350.0	1950.0
+MADDEN	1350.0	2850.0
+HENREK	1000.0	1100.0
+JOHNNY	1050.0	1140.0
+MARVIN	1000.0	1080.0
+
+##################################  9  #################################################
+
+SELECT dep_id, SUM(salary) 
+FROM  employees 
+GROUP BY  dep_id;
+
+################################## 10  #################################################
+
+SELECT DISTINCT job_name ,ROUND(AVG(salary),2)
+FROM  employees 
+GROUP BY job_name
+
+RESULT:
+ANALYST	3100.0
+CLERK	1091.67
+MANAGER	2752.33
+PRESIDENT 	1700.0
+SALESMAN	1917.5
+
+##################################  11  #################################################
+
+SELECT deptno, group_concat(ename,' - ') 
+FROM EMP 
+GROUP BY deptno 
+ORDER BY deptno
+
+##################################  12  #################################################
+
+SELECT dept.deptno,dept.dname
+FROM
+(
+    SELECT dept.deptno AS deptnumber, dept.dname
+    FROM dept
+    JOIN emp ON dept.deptno = emp.deptno
+    GROUP BY dept.deptno,dept.dname
+)
+GROUP BY dept.deptno
+##################################  12  #################################################
+12 :
+
+SELECT t1.deptno, t1.oldest, t2.newest
+FROM (
+	SELECT deptno , ename as oldest 
+	FROM emp 
+	group by deptno 
+	having hiredate = min(hiredate))
+	as t1, (select deptno , ename as newest from emp group by deptno
+having hiredate = max(hiredate)) as t2
+WHERE t1.deptno = t2.deptno 
+
+result:
+10	Clark	Miller
+20	Smith	Scott
+30	Allen	James
+##################################  13  #################################################
+
+
+
+
+
+
+
+
+##################################  14  #################################################
+
+SELECT emp.ename , dept.loc
+FROM emp
+JOIN dept
+ON emp.deptno = dept.deptno
+ORDER BY dept.loc 
+
+##################################  15  #################################################
+
+SELECT  emp.ename ,  manager.ename AS "Manager"
+FROM emp
+LEFT OUTER JOIN emp manager 
+ON emp.mgr = manager.empno
+
+##################################  16  #################################################
+
+SELECT DISTINCT dept.dname
+FROM dept
+LEFT JOIN emp 
+ON emp.deptno = dept.deptno
+WHERE emp.deptno IS NULL
+
+##################################  17  #################################################
+SELECT emp.ename
+FROM emp
+WHERE emp.ename NOT IN (
+	SELECT  emp.ename 
+	FROM emp
+	WHERE emp.job = 'CLERK' 
+	)
+	AND emp.sal > (
+					SELECT max(emp.sal )
+					FROM emp
+					WHERE emp.job = 'CLERK'
+					)
+
+##################################  18  #################################################
+
+CREATE TABLE students (
+	name VARCHAR(255) PRIMARY KEY,
+	subject VARCHAR(255) NOT NULL,
+	grade INT NOT NULL
+	)
+
+##################################  19  #################################################
+
+INSERT INTO students VALUES ( 'Salim' , 'Math' , '95')
+
+##################################  20  #################################################
+
+DELETE FROM students WHERE name = 'Salim'

@@ -34,7 +34,7 @@ def get_playlists():
         row = "".join(row)
         print(row)
 
-# ERROR: sqlite3.OperationalError: database is locked
+
 def create_playlist():
 
     #Create a playlist - creates a new playlist in the DB.
@@ -48,7 +48,7 @@ def add_song_to_playlist():
     c.execute("INSERT INTO playlist_track (PlaylistId, TrackId) VALUES (?, ?)",(playlist_id, input("TrackId: ")))
     conn.commit()
 
-# ERROR: sqlite3.OperationalError: database is locked
+
 def add_employee():
     c.execute( "INSERT INTO employees (EmployeeId, LastName, FirstName, Title, ReportsTo, "
                                       "BirthDate , HireDate, Address , City ,  State,"
@@ -59,6 +59,7 @@ def add_employee():
 
     # save: anytime u modify anything in your DB, U need to conduct commit.
     conn.commit()
+
 def delete_employee():
     c.execute("DELETE FROM employees  WHERE EmployeeId = ? AND LastName = ? AND FirstName = ?",
                                 (input("EmployeeId: "), input("LastName: "), input("FirstName: ")))
@@ -78,8 +79,8 @@ def close():
 #get_playlists()
 #create_playlist()
 #add_song_to_playlist()
-add_employee()
-
+#add_employee()
+delete_employee()
 
 #conn.execute("PRAGMA busy_timeout = 30000")
 
